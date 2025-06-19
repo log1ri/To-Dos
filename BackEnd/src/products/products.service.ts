@@ -11,8 +11,16 @@ export class ProductsService {
 
   
   
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  create(dto: CreateProductDto):Product {
+
+    const newTodo: Product ={
+      id: randomUUID(),
+      title: dto.title,
+      completed: false,
+    }
+    this.todos.push(newTodo);
+    console.log('New todo created:', newTodo);
+    return newTodo;
   }
   
   findAll() {
