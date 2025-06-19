@@ -74,7 +74,14 @@ export class ProductsService {
     return updatedTodo;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  remove(id: string) {
+    const todoId = this.todos.findIndex(todo => todo.id === id);
+    if (todoId === -1){
+      console.log(`Todo with id ${id} not found for removal`);
+      return undefined;
+    }
+    const removedTodo = this.todos.splice(todoId, 1);
+    console.log('Removed todo:', removedTodo);
+    return removedTodo[0];
   }
 }
