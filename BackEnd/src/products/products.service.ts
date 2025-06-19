@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
+// Entity
 import { Product } from './entities/product.entity';
+// DTOs
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+// Utility
 import { randomUUID } from 'crypto';
 
 @Injectable()
@@ -18,6 +21,7 @@ export class ProductsService {
       title: dto.title,
       completed: false,
     }
+
     this.todos.push(newTodo);
     console.log('New todo created:', newTodo);
     return newTodo;
@@ -42,8 +46,32 @@ export class ProductsService {
   }
 
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  update(id: string, dto: UpdateProductDto): Product | undefined {
+    // const updateTodo: Product = {
+    //   const todo = this.findOne(id);
+    //   if (!todo) return undefined;
+    //   Object.assign(todo, dto);
+    //   return todo;
+    // }
+
+    // const test = this.findOne(id);
+    // if (!test) {
+    //   console.log(`Todo with id ${id} not found for update`);
+    //   return undefined;
+    // }
+    const todoID = this.todos.findIndex(todo => todo.id === id);
+    if (todoID === -1) {
+      console.log(`Todo with id ${id} not found for update`);
+      return undefined;
+    }
+
+    const updatedTodo = {
+      ...this.todos[todoID],
+      ...dto,
+    };
+    this.todos[todoID] = updatedTodo;
+    console.log('Updated todo:', updatedTodo);
+    return updatedTodo;
   }
 
   remove(id: number) {
