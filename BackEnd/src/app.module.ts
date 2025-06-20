@@ -4,11 +4,13 @@ import { AppService } from './app.service';
 
 import { ProductsModule } from './products/products.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     ProductsModule,
-    MongooseModule.forRoot('mongodb://localhost/nest') // Replace with your MongoDB connection string
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(process.env.MONGODB_URI as string),
   ],
   controllers: [AppController],
   providers: [AppService],
