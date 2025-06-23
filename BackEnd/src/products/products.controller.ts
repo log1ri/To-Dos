@@ -9,8 +9,8 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  create(@Body() dto: CreateProductDto, @Res() res: Response) {
-    const todo = this.productsService.create(dto);
+  async create(@Body() dto: CreateProductDto, @Res() res: Response) {
+    const todo = await this.productsService.create(dto);
     if (!todo) {
       return res.status(400).json({
         message: 'Error creating todo',
@@ -23,8 +23,8 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(@Res() res: Response) {
-    const todos = this.productsService.findAll();
+  async findAll(@Res() res: Response) {
+    const todos = await this.productsService.findAll();
     return res.status(200).json({
       message: 'Todos fetched successfully',
       data: todos
@@ -32,8 +32,8 @@ export class ProductsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Res() res: Response) {
-    const todo = this.productsService.findOne(id);
+  async findOne(@Param('id') id: string, @Res() res: Response) {
+    const todo = await this.productsService.findOne(id);
     if (!todo) {
       return res.status(404).json({
         message: 'Todo not found',
@@ -46,8 +46,8 @@ export class ProductsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id:  string, @Body() dto: UpdateProductDto, @Res() res: Response) {
-    const updatedTodo = this.productsService.update(id, dto);
+  async update(@Param('id') id:  string, @Body() dto: UpdateProductDto, @Res() res: Response) {
+    const updatedTodo = await this.productsService.update(id, dto);
     if (!updatedTodo) {
       return res.status(404).json({
         message: 'Todo not found',
@@ -60,8 +60,8 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string, @Res() res: Response) {
-    const removedTodo = this.productsService.remove(id);
+  async remove(@Param('id') id: string, @Res() res: Response) {
+    const removedTodo = await this.productsService.remove(id);
     if (!removedTodo) {
       return res.status(404).json({
         message: 'Todo not found',
